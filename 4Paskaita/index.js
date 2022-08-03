@@ -12,7 +12,7 @@ const PORT = 5050;
 app.use(express.json());
 app.use(cors());
 
-let users = [];
+const users = [];
 
 app.get("/users" , (req,res) => {
     res.send(users);
@@ -21,9 +21,8 @@ app.get("/users" , (req,res) => {
 //kuriam API
 app.post("/users", (req,res) => {
     users.push(req.body);
-    res.send(req.body);
+    res.send(users);
 });
-
 
 
 const links = ["https://translate.google.lt/?hl=lt"];

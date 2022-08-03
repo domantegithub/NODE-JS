@@ -2,7 +2,7 @@
 //client susikurti index html ir js
 //index html pasirasau tvarkingai
 
-fetch("http://localhost:5050")
+fetch("http://localhost:5050/")
 .then(resp => resp.json())
 .then(response => {
     console.log(response);
