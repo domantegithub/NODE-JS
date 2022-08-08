@@ -365,25 +365,26 @@ const data = JSON.parse(`[{
   "car": "Porsche"
 }]
 `)
-
+//1)
 app.get("/data/:model", (req, res) => {
-    const carBrandFilter = data.filter((arr) => arr.car === req.params.model);
+    const carBrandFilter = data.filter((user) => user.car.toLowerCase() === req.params.model.toLowerCase());
   res.send(carBrandFilter);
   });
-
+//2)
   app.get("/id/:model", (req, res) => {
-    const peopleFilter = data.filter((arr) => arr.id === +req.params.model);
+    const peopleFilter = data.filter((user) => user.id === +req.params.model);
   res.send(peopleFilter);
   });
 
+ //3)
   app.get("/email", (req, res) => {
     const emailFilter = data.map((arr) => arr.email);
   res.send(emailFilter);
   });
-
+//4)
   app.get("/gender", (req, res) => {
-    const womenFilter = data.filter((arr) => arr.gender === "Female");
-    const nameAndSurname = womenFilter.map((arr) => `${arr.first_name} ${arr.last_name}`)
+    const womenFilter = data.filter((user) => user.gender === "Female");
+    const nameAndSurname = womenFilter.map((user) => `${user.first_name} ${user.last_name}`)
   res.send(nameAndSurname);
   });
 
