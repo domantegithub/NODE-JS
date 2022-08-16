@@ -9,14 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 const URI = `mongodb+srv://Domante:${process.env.PASSWORD}@cluster0.3huwoea.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(URI);
-
-app.listen(port, () =>
-  console.log(`Server is running on http://localhost:${port}`)
-);
 
 //GET ROUTE pasirašom
 app.get("/", async (req, res) => {
@@ -25,10 +21,15 @@ app.get("/", async (req, res) => {
     const data = await con.db("demo1").collection("cars").find().toArray(); //nurodome kokia DB imsime ir kokius duomenis
     await con.close(); //uzdarome prisijungima prie DB
     return res.send(data);
-  } catch (err) {
-   res.status(500).send({ err });
+  } catch (error) {
+   res.status(500).send({ error });
 }
 });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
 
 app.post("/", async (req, res) => {
   try {
