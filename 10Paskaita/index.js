@@ -45,12 +45,21 @@ app.get("/comments", async (req, res) => {
     const con = await client.connect();
     const data = await con
       .db("10paskaita")
+      .collection("comments").find().toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
+app.delete("/comments/:id", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("10paskaita")
       .collection("comments")
-      .aggregate([
-        { $match : {} },
-        { $group : {_id: "$name", comment: "$comment" }},
-    ])
-    .toArray();
+      .deleteOne({ _id: ObjectId(req.params.id) });
     await con.close();
     return res.send(data);
   } catch (error) {
