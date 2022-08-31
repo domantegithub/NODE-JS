@@ -8,13 +8,12 @@ app.use(express.json());
 app.use(cors());
 
 const mysqlConfig = {
-  host: "mysqlproject-do-user-12295540-0.b.db.ondigitalocean.com",
-  user: "doadmin",
-  password: "AVNS_pTlVVbd9O2Gkg2SvApo",
-  database: "ecommerce",
-  port: "25060",
+  host: process.env.MY_SQL_HOST,
+  user: process.env.MY_SQL_USER,
+  password: process.env.MY_SQL_PASSWORD,
+  database: process.env.MY_SQL_DATABASE,
+  port: process.env.MY_SQL_PORT,
 };
-
 
 // Sukuriame NodeJS projektą, kuris GET/POST į "/products" paduos visus produktus/įrašys naują produktą.
 
@@ -68,7 +67,7 @@ app.get("/products", async (req, res) => {
   app.get("/orders/:id", async (req, res) => {
     try {
       const con = await mysql.createConnection(mysqlConfig);
-      const response = await con.execute(`SELECT orders.id, orders.customer_name, orders.customer_email, products.title, products.image, products.price FROM orders LEFT JOIN products ON orders.product_id=${products.req.params.id};`)
+      const response = await con.execute(`SELECT orders.id, orders.customer_name, orders.customer_email, products.title, products.image, products.price FROM orders INNER JOIN products ON orders.product_id=${req.params.id};`)
       res.send(response[0]);
       await con.end();
     } catch (e) {
